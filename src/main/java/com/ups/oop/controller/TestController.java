@@ -15,14 +15,15 @@ public class TestController {
 
     @GetMapping("/hello")
     public String hello(@RequestParam String name,
-                        @RequestParam String lastname){
+                        @RequestParam String lastname,
+                        @RequestParam Integer age){
         return "This is my first SpringBootProject!" +
-                ", and my name is: "+ name + " " + lastname;
+                ", and my name is: "+ name + " " + lastname + " and my age is " + age + " years old";
     }
 
     @GetMapping("/concat/{name}/{lastname}/{age}")
-    public String concatenate(@PathVariable String name, @PathVariable String lastname){
+    public String concatenate(@PathVariable String name, @PathVariable String lastname, @PathVariable int age){
         return "This is my second rest service!, and my name is: "
-                + name + " " + lastname;
+                + name + " " + lastname +  " and my age is " + age + " years old";
     }
 }
