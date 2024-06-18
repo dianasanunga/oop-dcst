@@ -16,9 +16,14 @@ public class TestController {
     @GetMapping("/hello")
     public String hello(@RequestParam String name,
                         @RequestParam String lastname,
-                        @RequestParam Integer age){
-        return "This is my first SpringBootProject!" +
-                ", and my name is: "+ name + " " + lastname + " and my age is " + age + " years old";
+                        @RequestParam (required = false) Integer age){
+
+        String message = "This is my first SpringBootProject!, and muy name is : " + name +  " " + lastname;
+
+        if(age!= null){
+            message = message + "and my age is " + age + "years old.";
+        }
+        return message;
     }
 
     @GetMapping("/concat/{name}/{lastname}/{age}")
@@ -26,4 +31,11 @@ public class TestController {
         return "This is my second rest service!, and my name is: "
                 + name + " " + lastname +  " and my age is " + age + " years old";
     }
+
+    @GetMapping("/concat/{name}/{lastname}")
+    public String concatenate(@PathVariable String name, @PathVariable String lastname){
+        return "This is my second rest service!, and my name is: "
+                + name + " " + lastname ;
+    }
 }
+
