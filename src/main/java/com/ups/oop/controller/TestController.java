@@ -18,6 +18,9 @@ public class TestController {
                         @RequestParam(required = false) String lastname,
                         @RequestParam(required = false) Integer age) {
         String message = "This is my first SpringBootProject!, and muy name is : " + name;
+        if (name!= null) {
+            message = message + ", and my name is:" + name;
+        }
         if (lastname != null) {
             message = message + " " + lastname;
         }
@@ -43,6 +46,13 @@ public class TestController {
         return "This is my second rest service!, and my name is "
                 + name;
     }
+    @GetMapping("/concat")
+    public String concatenate(){
+        return "This is my second rest service!, and my name is ";
+                
+    }
+
+
 
 }
 
