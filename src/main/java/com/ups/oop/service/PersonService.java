@@ -30,4 +30,14 @@ public class PersonService {
         }
         return person;
     }
+    public String deletePersonById(String id){
+        String message = "person with id " + id;
+        for(Person per :personList){
+            if(id.equalsIgnoreCase(per.getId())){
+                personList.remove(per);
+                return message + "removed successfully";
+            }
+        }
+        return message + "not found";
+    }
 }
