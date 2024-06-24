@@ -30,6 +30,20 @@ public class PersonService {
         }
         return person;
     }
+
+    public Person updatePerson(Person person){
+        Person per = new Person();
+        int index = 0;
+        for(Person pers : personList){
+            if(person.getId().equalsIgnoreCase(pers.getId())){
+                personList.set(index,person);
+                return person;
+            }
+            index++;
+        }
+        return per;
+    }
+
     public String deletePersonById(String id){
         String message = "person with id " + id;
         for(Person per :personList){
