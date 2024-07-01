@@ -33,7 +33,7 @@ public class PersonController {
     }
 
     @PutMapping("/update-person")
-    public Person updatePerson(@RequestBody Person person){
+    public ResponseEntity updatePerson(@RequestBody Person person){
         return this.personService.updatePerson(person);
 
     }

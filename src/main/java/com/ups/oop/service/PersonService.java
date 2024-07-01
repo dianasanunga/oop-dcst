@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PersonService {
+public class  PersonService {
     private List<Person> personList = new ArrayList<>();
 
     public ResponseEntity createPerson(Person person){
@@ -52,17 +52,26 @@ public class PersonService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
-    public Person updatePerson(Person person){
-        Person per = new Person();
+    private int findIndexById (String id){
         int index = 0;
-        for(Person pers : personList){
-            if(person.getId().equalsIgnoreCase(pers.getId())){
-                personList.set(index,person);
-                return person;
+        for (Person p : personList){
+            if(id.equalsIgnoreCase(p.getId())){
+               return index;
             }
             index++;
         }
-        return per;
+        return -1;
+
+    }
+
+    public ResponseEntity updatePerson(Person person){
+     int upadateIndex = findIndexById(person.getId());
+        if (upadateIndex!= -1){
+            personList.set(upadateIndex, person);
+            return ResponseEntity.status(HttpStatus.OK).body(person);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("person with id " + person.getId()+" doesn't exits ");
+
     }
 
     public String deletePersonById(String id){
