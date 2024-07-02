@@ -39,7 +39,7 @@ public class PersonController {
     }
 
     @DeleteMapping("/removed-person")
-    public String deletePerson(@RequestParam String id){
+    public ResponseEntity deletePerson(@RequestParam String id){
         return this.personService.deletePersonById(id);
     }
 }
