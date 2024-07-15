@@ -1,32 +1,30 @@
 package com.ups.oop.service;
 
-
-import com.ups.oop.dto.Person;
+import com.ups.oop.dto.PersonDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class  PersonService {
-    private List<Person> personList = new ArrayList<>();
+    private List<PersonDTO> personDTOList = new ArrayList<>();
 
-    public ResponseEntity createPerson(Person person){
-        boolean wasFound = findPerson(person.getId());
+    public ResponseEntity createPerson(PersonDTO personDTO){
+        boolean wasFound = findPerson(personDTO.getId());
         if(wasFound){
-            String errorMessage = "person with id" + person.getId() + "already exists";
+            String errorMessage = "person with id" + personDTO.getId() + "already exists";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
         }else{
-            personList.add(person);
-            return ResponseEntity.status(HttpStatus.OK).body(person);
+            personDTOList.add(personDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(personDTO);
         }
     }
     private boolean findPerson(String id){
-        for(Person person: personList){
-            if(id.equalsIgnoreCase(person.getId())){
+        for(PersonDTO personDTO : personDTOList){
+            if(id.equalsIgnoreCase(personDTO.getId())){
                 return true;
             }
         }
@@ -34,15 +32,15 @@ public class  PersonService {
     }
 
     public ResponseEntity getAllPeople(){
-        if(personList.isEmpty()){
+        if(personDTOList.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person List not found");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(personList);
+        return ResponseEntity.status(HttpStatus.OK).body(personDTOList);
     }
 
     public ResponseEntity getPersonById(String id){
-        Person person= new Person();
-        for(Person per: personList) {
+        PersonDTO personDTO = new PersonDTO();
+        for(PersonDTO per: personDTOList) {
             if(id.equalsIgnoreCase(per.getId())){
                 return ResponseEntity.status(HttpStatus.OK).body(per);
             }
@@ -54,7 +52,7 @@ public class  PersonService {
 
     private int findIndexById (String id){
         int index = 0;
-        for (Person p : personList){
+        for (PersonDTO p : personDTOList){
             if(id.equalsIgnoreCase(p.getId())){
                return index;
             }
@@ -64,21 +62,21 @@ public class  PersonService {
 
     }
 
-    public ResponseEntity updatePerson(Person person){
-     int upadateIndex = findIndexById(person.getId());
+    public ResponseEntity updatePerson(PersonDTO personDTO){
+     int upadateIndex = findIndexById(personDTO.getId());
         if (upadateIndex!= -1){
-            personList.set(upadateIndex, person);
-            return ResponseEntity.status(HttpStatus.OK).body(person);
+            personDTOList.set(upadateIndex, personDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(personDTO);
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("person with id " + person.getId()+" doesn't exits ");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("person with id " + personDTO.getId()+" doesn't exits ");
 
     }
 
     public ResponseEntity deletePersonById(String id){
         String message = "person with id " + id;
-        for(Person per :personList){
+        for(PersonDTO per : personDTOList){
             if(id.equalsIgnoreCase(per.getId())){
-                personList.remove(per);
+                personDTOList.remove(per);
                 return ResponseEntity.status(HttpStatus.OK).body(message + " removed successfully");
             }
         }
