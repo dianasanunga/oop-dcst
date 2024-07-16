@@ -1,6 +1,8 @@
 package com.ups.oop.service;
 
 import com.ups.oop.dto.PersonDTO;
+import com.ups.oop.entity.Person;
+import com.ups.oop.repository.PersonRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,7 +12,13 @@ import java.util.List;
 
 @Service
 public class  PersonService {
+    private final PersonRepository personRepository;
+
     private List<PersonDTO> personDTOList = new ArrayList<>();
+
+    public PersonService(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
     public ResponseEntity createPerson(PersonDTO personDTO){
         boolean wasFound = findPerson(personDTO.getId());
@@ -32,10 +40,18 @@ public class  PersonService {
     }
 
     public ResponseEntity getAllPeople(){
-        if(personDTOList.isEmpty()){
+        Iterable<Person>personIterable = personRepository.findAll();
+        List<PersonDTO> peopleList = new ArrayList<>();
+
+        for(Person p: personIterable){
+            PersonDTO person = new PersonDTO(p.getPersonId(), p.getName(), p.getLastname(), p.getAge());
+            peopleList.add(person);
+        }
+
+        if(peopleList.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Person List not found");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(personDTOList);
+        return ResponseEntity.status(HttpStatus.OK).body(peopleList);
     }
 
     public ResponseEntity getPersonById(String id){
