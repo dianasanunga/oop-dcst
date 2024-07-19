@@ -14,9 +14,7 @@ import lombok.ToString;
 
 public class AnimalDTO {
     private String id;
-    private String name;
-    private String bread;
-    private String color;
+    private String animalCode; //name-bread-color
     private double weight;
     private double height;
     private double length;
