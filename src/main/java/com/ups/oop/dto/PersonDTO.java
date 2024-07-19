@@ -15,7 +15,6 @@ import lombok.ToString;
 public class PersonDTO {
     private String id;
     private String name;
-    private String lastname;
     private int age;
 
 

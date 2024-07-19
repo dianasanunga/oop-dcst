@@ -20,6 +20,7 @@ public class BootStraData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         //person
+
         Person p1 = new Person();
         p1.setPersonId("0920005311");
         p1.setName("Diana");
@@ -36,6 +37,7 @@ public class BootStraData implements CommandLineRunner {
         personRepository.save(p2);
 
         //Animals
+
         Animal a1 = new Animal();
         a1.setAnimalId("0923568792");
         a1.setName("Akira");
