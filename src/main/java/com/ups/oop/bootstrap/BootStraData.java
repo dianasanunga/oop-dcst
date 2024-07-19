@@ -39,7 +39,6 @@ public class BootStraData implements CommandLineRunner {
         //Animals
 
         Animal a1 = new Animal();
-        a1.setAnimalId("0923568792");
         a1.setName("Akira");
         a1.setBread("rottweiler");
         a1.setColor("black,brown");
@@ -48,7 +47,6 @@ public class BootStraData implements CommandLineRunner {
         a1.setLength(2.2);
 
         Animal a2= new Animal();
-        a2.setAnimalId("0923568792");
         a2.setName("Ares");
         a2.setBread("pastor aleman");
         a2.setColor("black");

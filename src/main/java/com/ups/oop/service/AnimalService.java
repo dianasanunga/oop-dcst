@@ -2,6 +2,7 @@ package com.ups.oop.service;
 
 import com.ups.oop.dto.AnimalDTO;
 import com.ups.oop.entity.Animal;
+import com.ups.oop.entity.Person;
 import com.ups.oop.repository.AnimalRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimalService {
@@ -43,9 +45,14 @@ public class AnimalService {
         Iterable<Animal>animalIterable = animalRepository.findAll();
         List<AnimalDTO> animalList = new ArrayList<>();
 
-        for(Animal a: animalIterable){
-            AnimalDTO animal = new AnimalDTO(a.getAnimalId(), a.getName(), a.getBread(), a.getColor(), a.getWeight(), a.getHeight(), a.getLength());
+        for(Animal anim: animalIterable){
+            AnimalDTO animal = new AnimalDTO();
+            animal.setAnimalCode(anim.getName() + "-" + anim.getBread() + "-" + anim.getColor());
+            animal.setWeight(anim.getWeight());
+            animal.setHeight(anim.getHeight());
+            animal.setLength(anim.getLength());
             animalList.add(animal);
+
         }
 
         if(animalList.isEmpty()){
@@ -54,16 +61,23 @@ public class AnimalService {
         return ResponseEntity.status(HttpStatus.OK).body(animalList);
     }
 
-    public ResponseEntity getAnimalById(String id){
-        AnimalDTO animaLDTO = new AnimalDTO();
-        for(AnimalDTO ani: animalDTOList) {
-            if(id.equalsIgnoreCase(ani.getId())){
-                return ResponseEntity.status(HttpStatus.OK).body(ani);
-            }
+    public ResponseEntity getAnimalById(String id) {
+
+        Optional<Animal> animalOptional = animalRepository.findById(Long.valueOf(id));
+
+        if (animalOptional.isPresent()) {
+            Animal animalFound = animalOptional.get();
+            AnimalDTO animal = new AnimalDTO(animalFound.getAnimalId(),
+                    animalFound.getName() + "-" + animalFound.getBread() + "-" + animalFound.getColor(),
+                    animalFound.getWeight(),
+                    animalFound.getHeight(),
+                    animalFound.getLength());
+            return ResponseEntity.status(HttpStatus.OK).body(animal);
+        } else {
+            String errorMessage = "animal with id" + id + " already exists";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
         }
 
-        String errorMessage = "animal with id" + id +  " already exists";
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     private int findIndexById (String id){
