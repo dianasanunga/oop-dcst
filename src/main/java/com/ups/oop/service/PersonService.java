@@ -21,16 +21,34 @@ public class  PersonService {
         this.personRepository = personRepository;
     }
 
-    public ResponseEntity createPerson(PersonDTO personDTO){
-        boolean wasFound = findPerson(personDTO.getId());
-        if(wasFound){
+    public ResponseEntity createPerson(PersonDTO personDTO) {
+        String personId = personDTO.getId();
+        //check repository if record exist
+        Optional<Person> personOptional = personRepository.findByPersonId(personId);
+        if (personOptional.isPresent()) {
             String errorMessage = "person with id " + personDTO.getId() + " already exists";
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-        }else{
-            personDTOList.add(personDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(personDTO);
+        } else {
+            //Before register Person, name, Lastname are present
+            if (personDTO.getName().contains(" ")) {
+                //Build Person and save in Repository
+                Person personRecord = new Person();
+                personRecord.setPersonId(personId);
+                String[] nameStrings = personDTO.getName().split(" ");
+                String name = nameStrings[0];
+                String lastname = nameStrings[1];
+                personRecord.setName(name);
+                personRecord.setLastname(lastname);
+                personRecord.setAge(personDTO.getAge());
+                personRepository.save(personRecord);
+                return ResponseEntity.status(HttpStatus.OK).body(personDTO);
+
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("person name must contain two strings separated by a whitespace");
+            }
         }
     }
+
     private boolean findPerson(String id){
         for(PersonDTO personDTO : personDTOList){
             if(id.equalsIgnoreCase(personDTO.getId())){
