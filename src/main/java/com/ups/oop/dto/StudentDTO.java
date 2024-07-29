@@ -13,7 +13,6 @@ import lombok.ToString;
 @Setter
 
 public class StudentDTO {
-    private Long id;
     private String student_code ;
     private String name;
 
