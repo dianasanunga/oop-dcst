@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>People List</title>
+   <style>
+       table, th, td{
+       border: 1px solid black;
+       border-collapse:collapse;
+       }
+
+       tbody tr:nth-child(odd){
+       background: lightblue;
+       }
+
+       th {
+         background-color: lightgreen;
+         width:150px;
+         padding: 10px;
+       }
+
+       tr:hover{
+         box-shadow:0px 2px 0px rgba(0,0,0,0.5);
+         cursor: pointer;
+         }
+
+       td {
+         padding:10px;
+       }
+   </style>
+</head>
+<body>
+    <h2>List of People</h2>
+    <br>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+        <tr>
+            <td>0920005311</td>
+            <td>Diana Sanunga</td>
+            <td>18</td>
+        </tr>
+        <tr>
+            <td>099216226</td>
+            <td>Valeska Adrian</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>0923657845</td>
+            <td>Miguel</td>
+            <td>20</td>
+        </tr>
+
+    </table>
+</body>
+
+</html>
