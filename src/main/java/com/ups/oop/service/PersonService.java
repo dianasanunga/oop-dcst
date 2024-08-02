@@ -49,13 +49,25 @@ public class  PersonService {
         }
     }
 
-    public ResponseEntity getAllPeople(){
+    public List<PersonDTO>getPeople(){
         Iterable<Person>personIterable = personRepository.findAll();
         List<PersonDTO> peopleList = new ArrayList<>();
 
         for(Person p: personIterable){
            PersonDTO person = new PersonDTO(p.getPersonId(), p.getName()+ "-" + p.getLastname(), p.getAge());
            peopleList.add(person);
+
+        }
+        return peopleList;
+    }
+
+    public ResponseEntity getAllPeople(){
+        Iterable<Person>personIterable = personRepository.findAll();
+        List<PersonDTO> peopleList = new ArrayList<>();
+
+        for(Person p: personIterable){
+            PersonDTO person = new PersonDTO(p.getPersonId(), p.getName()+ "-" + p.getLastname(), p.getAge());
+            peopleList.add(person);
 
 //            PersonDTO person = new PersonDTO();
 //            person.setId(p.getPersonId());
@@ -69,6 +81,7 @@ public class  PersonService {
         }
         return ResponseEntity.status(HttpStatus.OK).body(peopleList);
     }
+
 
     public ResponseEntity getPersonById(String personId){
 
