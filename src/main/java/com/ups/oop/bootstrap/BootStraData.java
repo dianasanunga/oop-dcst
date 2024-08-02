@@ -62,8 +62,17 @@ public class BootStraData implements CommandLineRunner {
         a2.setHeight(2.2);
         a2.setLength(3.2);
 
+        Animal a3= new Animal();
+        a3.setName("Odie");
+        a3.setBread("beagle");
+        a3.setColor("White,coffee");
+        a3.setWeight(15.1);
+        a3.setHeight(3.2);
+        a3.setLength(7.2);
+
         animalRepository.save(a1);
         animalRepository.save(a2);
+        animalRepository.save(a3);
 
         System.out.println("--------Started BootstrapData-------- ");
         System.out.println("Number of Person: " +personRepository.count());

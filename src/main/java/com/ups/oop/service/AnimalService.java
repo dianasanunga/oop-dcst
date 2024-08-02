@@ -1,6 +1,7 @@
 package com.ups.oop.service;
 
 import com.ups.oop.dto.AnimalDTO;
+import com.ups.oop.dto.PersonDTO;
 import com.ups.oop.entity.Animal;
 import com.ups.oop.entity.Person;
 import com.ups.oop.repository.AnimalRepository;
@@ -59,6 +60,22 @@ public class AnimalService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Animal List not found");
         }
         return ResponseEntity.status(HttpStatus.OK).body(animalList);
+    }
+
+    public List<AnimalDTO> getAnimal(){
+        Iterable<Animal>animalIterable = animalRepository.findAll();
+        List<AnimalDTO> animalList = new ArrayList<>();
+
+        for(Animal anim: animalIterable){
+            AnimalDTO animal = new AnimalDTO();
+            animal.setAnimalCode(anim.getName() + "-" + anim.getBread() + "-" + anim.getColor());
+            animal.setWeight(anim.getWeight());
+            animal.setHeight(anim.getHeight());
+            animal.setLength(anim.getLength());
+            animalList.add(animal);
+
+        }
+        return animalList;
     }
 
     public ResponseEntity getAnimalById(String id) {
