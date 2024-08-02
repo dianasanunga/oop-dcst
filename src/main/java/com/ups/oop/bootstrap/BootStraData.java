@@ -33,8 +33,16 @@ public class BootStraData implements CommandLineRunner {
         p2.setLastname("Adrian");
         p2.setAge(5);
 
+        Person p3 = new Person();
+        p3.setPersonId("0923568974");
+        p3.setName("Miguel");
+        p3.setLastname("Adrian");
+        p3.setAge(20);
+
         personRepository.save(p1);
         personRepository.save(p2);
+        personRepository.save(p3);
+
 
         //Animals
 
