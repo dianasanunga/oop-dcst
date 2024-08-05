@@ -68,6 +68,7 @@ public class AnimalService {
 
         for(Animal anim: animalIterable){
             AnimalDTO animal = new AnimalDTO();
+            animal.setPetName(anim.getPetName());
             animal.setAnimalCode(anim.getName() + "-" + anim.getBread() + "-" + anim.getColor());
             animal.setWeight(anim.getWeight());
             animal.setHeight(anim.getHeight());
@@ -78,23 +79,21 @@ public class AnimalService {
         return animalList;
     }
 
+
     public ResponseEntity getAnimalById(String id) {
-
         Optional<Animal> animalOptional = animalRepository.findById(Long.valueOf(id));
-
-        if (animalOptional.isPresent()) {
+        if(animalOptional.isPresent()) {
             Animal animalFound = animalOptional.get();
-            AnimalDTO animal = new AnimalDTO(animalFound.getAnimalId(),
-                    animalFound.getName() + "-" + animalFound.getBread() + "-" + animalFound.getColor(),
-                    animalFound.getWeight(),
-                    animalFound.getHeight(),
-                    animalFound.getLength());
+            AnimalDTO animal = new AnimalDTO();
+            animal.setAnimalCode(animalFound.getName() + "-" + animalFound.getBread() + "-" + animalFound.getColor());
+            animal.setWeight(animalFound.getWeight());
+            animal.setLength(animalFound.getLength());
+            animal.setHeight(animalFound.getHeight());
             return ResponseEntity.status(HttpStatus.OK).body(animal);
         } else {
-            String errorMessage = "animal with id" + id + " already exists";
+            String errorMessage = "Person with id " + id + " not found";
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
         }
-
     }
 
     private int findIndexById (String id){
