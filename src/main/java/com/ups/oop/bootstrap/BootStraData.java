@@ -89,26 +89,33 @@ public class BootStraData implements CommandLineRunner {
 
         Author au1 = new Author();
         au1.setName("Akira");
-        au1.setLastname("dumas");
+        au1.setLastname("Sanunga");
         authorRepository.save(au1);
 
         Book b1 = new Book();
         b1.setTitle("Conde dracula");
-        b1.setEditorial("daniel");
+        b1.setEditorial("Pearson");
         b1.setAuthor(au1);
         bookRepository.save(b1);
 
+        Book b4 = new Book();
+        b4.setTitle("ratón de cuidad");
+        b4.setEditorial("S.A. Editorial");
+        b4.setAuthor(au1);
+        bookRepository.save(b4);
+
+        au1.getBooks().add(b4);
         au1.getBooks().add(b1);
         authorRepository.save(au1);
 
         Author au2 = new Author();
-        au2.setName("Akira");
-        au2.setLastname("dumas");
+        au2.setName("Daniel");
+        au2.setLastname("Gaibor");
         authorRepository.save(au2);
 
         Book b2 = new Book();
         b2.setTitle("bella");
-        b2.setEditorial("akira");
+        b2.setEditorial("LSA");
         b2.setAuthor(au2);
         bookRepository.save(b2);
 
@@ -116,13 +123,13 @@ public class BootStraData implements CommandLineRunner {
         authorRepository.save(au2);
 
         Author au3= new Author();
-        au3.setName("");
-        au3.setLastname("dumas");
+        au3.setName("Valeska");
+        au3.setLastname("Adrian");
         authorRepository.save(au3);
 
         Book b3 = new Book();
         b3.setTitle("J.K");
-        b3.setEditorial("damian");
+        b3.setEditorial("Abd");
         b3.setAuthor(au3);
         bookRepository.save(b3);
 
@@ -132,7 +139,8 @@ public class BootStraData implements CommandLineRunner {
 
         System.out.println("--------Started BootstrapData-------- ");
         System.out.println("Number of Person: " +personRepository.count());
-        System.out.println("Number of animal: " +animalRepository.count());
+        System.out.println("Number of Animal: " +animalRepository.count());
+        System.out.println("Number of Author:" +authorRepository.count());
     }
 
 }
