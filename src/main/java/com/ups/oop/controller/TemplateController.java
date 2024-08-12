@@ -2,6 +2,7 @@ package com.ups.oop.controller;
 
 
 import com.ups.oop.service.AnimalService;
+import com.ups.oop.service.BookService;
 import com.ups.oop.service.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +13,12 @@ public class TemplateController {
 
     private  final PersonService personService;
     private final AnimalService animalService;
+    private final BookService bookService;
 
-    public TemplateController(PersonService personService, AnimalService animalService) {
+    public TemplateController(PersonService personService, AnimalService animalService, BookService bookService) {
         this.personService = personService;
         this.animalService = animalService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/template")
@@ -34,6 +37,12 @@ public class TemplateController {
     public String getAnimal(Model model) {
         model.addAttribute("animal", animalService.getAnimal());
         return "animal/list";
+    }
+
+    @GetMapping("/book")
+    public String getBook(Model model) {
+        model.addAttribute("book", bookService.getBook());
+        return "book/list";
     }
 
 }
