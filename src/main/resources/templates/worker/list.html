@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Worker List</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+
+        th {
+          padding: 10px;
+          width: 150px;
+        }
+
+        tr:first-child {
+          background: #add8e6;
+          color: white;
+        }
+
+        tr {
+          background-color: #70f58580;
+        }
+
+        tr:hover{
+           box-shadow: 0px 2px 0px rgba(0,0,0,0.5);
+           cursor: pointer;
+        }
+
+        td {
+          padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2>List of Workers</h2>
+<br>
+<table>
+    <tr>
+        <th>Worker Code</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Age</th>
+    </tr>
+    <tr th:each="w: ${workers}">
+        <th th:text="${w.workerCode}"></th>
+        <th th:text="${w.id}"></th>
+        <th th:text="${w.name}"></th>
+        <th th:text="${w.age}"></th>
+    </tr>
+</table>
+</body>
+</html>

@@ -11,8 +11,10 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-public class PersonDTO {
+
+public class ClientDTO {
     private String id;
     private String name;
     private int age;
+    private String clientCode;
 }
