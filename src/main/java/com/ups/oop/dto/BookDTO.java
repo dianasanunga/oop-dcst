@@ -2,6 +2,8 @@ package com.ups.oop.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -11,8 +13,7 @@ import lombok.*;
 public class BookDTO {
 
     private String title;
-    private String editorial;
-    private String authorName;
-    private String authorLastname;
+    private String author;
+    private List<String> editorials;
 
 }

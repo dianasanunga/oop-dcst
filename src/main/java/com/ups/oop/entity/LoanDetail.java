@@ -1,10 +1,11 @@
 package com.ups.oop.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,19 +16,15 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Person {
+
+public class LoanDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String personId;
-    private String name;
-    private String lastname;
-    private Integer age;
-
-    public Person(String personId, String name, String lastname, Integer age){
-        this.personId = personId;
-        this.name = name;
-        this.lastname = lastname;
-        this.age = age;
-    }
+    @ManyToOne
+    @JoinColumn(name = "loan_id", nullable = true)
+    private Loan loan;
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = true)
+    private Book book;
 }

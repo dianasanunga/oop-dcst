@@ -1,12 +1,13 @@
 package com.ups.oop.bootstrap;
 
 import com.ups.oop.entity.*;
-import com.ups.oop.repository.AnimalRepository;
-import com.ups.oop.repository.AuthorRepository;
-import com.ups.oop.repository.BookRepository;
-import com.ups.oop.repository.PersonRepository;
+import com.ups.oop.entity.Loan;
+import com.ups.oop.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class BootStraData implements CommandLineRunner {
@@ -14,12 +15,26 @@ public class BootStraData implements CommandLineRunner {
     private final AnimalRepository animalRepository;
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final ClientRepository clientRepository;
+    private final WorkerRepository workerRepository;
+    private final EditorialRepository editorialRepository;
+    private final com.ups.oop.repository.LoanRepository loanRepository;
+    private final LoanDetailRepository loanDetailRepository;
 
-    public BootStraData(PersonRepository personRepository, AnimalRepository animalRepository, AuthorRepository authorRepository, BookRepository bookRepository) {
+
+    public BootStraData(PersonRepository personRepository, AnimalRepository animalRepository, AuthorRepository authorRepository, BookRepository bookRepository, ClientRepository clientRepository, WorkerRepository workerRepository,
+                        EditorialRepository editorialRepository, com.ups.oop.repository.LoanRepository loanRepository,
+                        LoanDetailRepository loanDetailRepository) {
         this.personRepository = personRepository;
         this.animalRepository = animalRepository;
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.clientRepository = clientRepository;
+        this.workerRepository = workerRepository;
+        this.editorialRepository = editorialRepository;
+        this.loanRepository = loanRepository;
+        this.loanDetailRepository = loanDetailRepository;
+
     }
 
 
@@ -83,8 +98,9 @@ public class BootStraData implements CommandLineRunner {
             animalRepository.save(a3);
         }
 
-        //Book
-        public void createAuthor() {
+        //Book and Authors
+
+        public void createAuthorsAndEditorials() {
             Author au1 = new Author();
             au1.setName("Akira");
             au1.setLastname("Sanunga");
@@ -96,14 +112,14 @@ public class BootStraData implements CommandLineRunner {
             b1.setAuthor(au1);
             bookRepository.save(b1);
 
-            Book b4 = new Book();
-            b4.setTitle("ratón de cuidad");
-            b4.setEditorial("S.A. Editorial");
-            b4.setAuthor(au1);
-            bookRepository.save(b4);
+            Book b3 = new Book();
+            b3.setTitle("ratón de cuidad");
+            b3.setEditorial("S.A. Editorial");
+            b3.setAuthor(au1);
+            bookRepository.save(b3);
 
-            au1.getBooks().add(b4);
             au1.getBooks().add(b1);
+            au1.getBooks().add(b3);
             authorRepository.save(au1);
 
             Author au2 = new Author();
@@ -120,43 +136,114 @@ public class BootStraData implements CommandLineRunner {
             au2.getBooks().add(b2);
             authorRepository.save(au2);
 
-            Author au3 = new Author();
-            au3.setName("Valeska");
-            au3.setLastname("Adrian");
-            authorRepository.save(au3);
+            //Editorials
+            Editorial e1 = new Editorial();
+            e1.setName("Pearson");
+            e1.getBooks().add(b1);
+            e1.getBooks().add(b2);
+            editorialRepository.save(e1);
 
-            Book b3 = new Book();
-            b3.setTitle("J.K");
-            b3.setEditorial("Abd");
-            b3.setAuthor(au3);
+            Editorial e2 = new Editorial();
+            e2.setName("LNS");
+            e2.getBooks().add(b2);
+            e2.getBooks().add(b3);
+            editorialRepository.save(e2);
+
+            //books Join with Editorial
+            b1.getEditorials().add(e1);
+            bookRepository.save(b1);
+
+            b2.getEditorials().add(e1);
+            b2.getEditorials().add(e2);
+            bookRepository.save(b2);
+
+            b3.getEditorials().add(e2);
             bookRepository.save(b3);
-
-            au3.getBooks().add(b3);
-            authorRepository.save(au3);
         }
 
-        // Client
-        public void createClient(){
-        Client c1 = new Client("c-00001", "0920005311", "Diana", "Sanunga", 18);
-        Client c2 = new Client("c-00002", "09235647856", "valeska", "Adrian", 20);
+    public void createClients() {
+        Client c1 = new Client("c-00001", "0925849630", "Diana", "Sanunga", 18);
+        Client c2 = new Client("c-00002", "0925849622", "Miguel", "Toral", 20);
         clientRepository.save(c1);
+        clientRepository.save(c2);
 
+    }
+
+    public void createWorkers() {
+        Worker w1 = new Worker("w-00001", "0925849630", "Diana", "Sanunga", 18);
+        Worker w2 = new Worker("w-00002", "0925849622", "Miguel", "Toral", 20);
+        Worker w3 = new Worker("w-00003", "0925849655", "Valeria", "Adrian", 10);
+        workerRepository.save(w1);
+        workerRepository.save(w2);
+        workerRepository.save(w3);
+    }
+
+    public void createLoans() {
+        Optional<Client> clientOptional = clientRepository.findById(4l);
+        Client client = new Client();
+        if(clientOptional.isPresent()) {
+            client = clientOptional.get();
+        }
+
+        Optional<Worker> workerOptional = workerRepository.findById(8l);
+        Worker worker = new Worker();
+        if(workerOptional.isPresent()) {
+            worker = workerOptional.get();
+        }
+
+        Loan loan = new Loan();
+        loan.setSerial("l-0001");
+        loan.setLoanDate(new Date());
+        loan.setClient(client);
+        loan.setDays(30);
+        loan.setWorker(worker);
+        loanRepository.save(loan);
+
+        Optional<Book> bookOptional = bookRepository.findById(1l);
+        Book b1 = new Book();
+        if(bookOptional.isPresent()) {
+            b1 = bookOptional.get();
+        }
+        bookOptional = bookRepository.findById(2l);
+        Book b2 = new Book();
+        if(bookOptional.isPresent()) {
+            b2 = bookOptional.get();
+        }
+
+        LoanDetail l1 = new LoanDetail();
+        l1.setLoan(loan);
+        l1.setBook(b1);
+        loanDetailRepository.save(l1);
+
+        LoanDetail l2 = new LoanDetail();
+        l2.setLoan(loan);
+        l2.setBook(b2);
+        loanDetailRepository.save(l2);
+
+        loan.getDetailList().add(l1);
+        loan.getDetailList().add(l2);
+        loanRepository.save(loan);
     }
 
     @Override
     public void run(String... args) throws Exception {
         createPerson();
         createAnimal();
-        createAuthor();
-        createClient();
+        createAuthorsAndEditorials();
+        createClients();
+        createWorkers();
+        createLoans();
 
 
         System.out.println("--------Started BootstrapData-------- ");
         System.out.println("Number of Person: " +personRepository.count());
         System.out.println("Number of Animal: " +animalRepository.count());
         System.out.println("Number of Author:" +authorRepository.count());
-        System.out.println("Number of Author:" +bookRepository.count());
-        System.out.println("Number of Author:" +clientRepository.count());
+        System.out.println("Number of Books:" +bookRepository.count());
+        System.out.println("Number of Clients:" +clientRepository.count());
+        System.out.println("Number of Workers: " + workerRepository.count());
+        System.out.println("Number of Loans: " + loanRepository.count());
+        System.out.println("Number of Loans Details: " + loanDetailRepository.count());
     }
 
 }
